@@ -12,7 +12,7 @@ import { startReminder } from './config/reminderCron.js'
 const app = express()
 const PORT = process.env.PORT || 3000
 
-const allOrigin = ['http://localhost:5173']
+const allOrigin = ['http://localhost:5173','https://habitflow-iota.vercel.app']
 
 app.use(express.json())
 app.use(cookieParser())
