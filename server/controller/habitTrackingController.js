@@ -25,7 +25,8 @@ export const habitTracking = async (req, res) => {
         return res.json({ success: true })
 
     } catch (error) {
-        return res.status(500).json({
+        console.log(error.message)
+        return res.json({
             success: false,
             message: error.message
         })

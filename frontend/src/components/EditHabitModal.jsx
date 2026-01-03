@@ -88,7 +88,7 @@ const EditHabitModal = ({ onClose, habitID, habit }) => {
     }, [habit])
     return (
         <div
-            className={`fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm `}>
+            className={`fixed inset-0 top-0 z-50 flex items-center justify-center backdrop-blur-[5px] `}>
             <div className='max-w-4xl mx-auto'>
                 <form onSubmit={handleSubmit}
 

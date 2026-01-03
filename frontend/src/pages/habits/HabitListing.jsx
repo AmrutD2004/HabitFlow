@@ -88,18 +88,12 @@ const HabitListing = () => {
     return (
         <>
             {loading ? (
-                <div className="max-w-7xl mx-auto min-h-screen flex items-center justify-center">
+                <div className="max-w-7xl mx-auto flex items-center justify-center">
                     <Loader2 size={32} className='animate-spin' />
                 </div>
             ) : (
 
                 <div className='max-w-7xl mx-auto'>
-                    {habitData.length === 0 && (
-                        <div className='flex items-center justify-center'>
-                            <h1 className='text-neutral-500'>You haven’t added any habits yet. Create one to get started.</h1>
-                        </div>
-
-                    )}
                     <div className='w-full border rounded-md border-neutral-300 py-3 px-5 bg-gray-50 my-4'>
                         <div className='w-full flex items-center justify-between gap-3'>
                             <input onChange={(e)=>handleSearched(e.target.value)} type="text" className='px-3 py-2 border border-neutral-300 w-full rounded-md text-sm outline-none bg-white' placeholder='Search habit by Habit name...' />
@@ -112,6 +106,12 @@ const HabitListing = () => {
                             </select>
                         </div>
                     </div>
+                    {habitData.length === 0 && (
+                        <div className='flex items-center justify-center'>
+                            <h1 className='text-neutral-500'>You haven’t added any habits yet. Create one to get started.</h1>
+                        </div>
+
+                    )}
                     {searched.map((items, idx) =>
                         items.is_active ? (
                             <div key={items.habit_id} className={`w-full border  py-6 px-4 rounded-lg  mb-4 shadow-sm ${checkedHabits.includes(items.habit_id) ? 'bg-green-100 border-green-300' : 'bg-white border-neutral-300'}`}>
@@ -149,10 +149,12 @@ const HabitListing = () => {
                     )}
 
                     <Toaster />
+                    
                 </div>
             )}
             {openEditModal && (<EditHabitModal onClose={() => setOpenEditModal(false)} habit={selectedHabit} habitID={selectedHabit.habit_id} />)}
         </>
+        
     )
 }
 

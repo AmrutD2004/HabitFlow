@@ -45,6 +45,7 @@ export const startReminder = () => {
                         `🔔 Notification created for user ${reminder.user_id} at ${currentTime}`
                     );
                 }
+
             }
 
         } catch (error) {
