@@ -57,28 +57,63 @@ export const unreadNotificationCount = async (req, res) => {
 
 //Mark all Notification as read
 
-export const markAllAsRead = async(req, res)=>{
+export const markAllAsRead = async (req, res) => {
     const userID = req.user.userID
 
-    if(!userID){
+    if (!userID) {
         return res.json({
-            success : false,
-            message : 'Missing user_id'
+            success: false,
+            message: 'Missing user_id'
         })
     }
 
-    try{
+    try {
 
         const result = client.query(`update habit_notifications set is_read = true where user_id = $1 `, [userID])
 
         return res.json({
-            success : true,
+            success: true,
         })
 
-    }catch(error){
+    } catch (error) {
         return res.json({
-            success : false,
-            message : error.message
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+
+export const deleteNotification = async (req, res) => {
+    const userID = req.user.userID
+
+    if (!userID) {
+        return res.json({
+            success: false,
+            message: 'User not found'
+        })
+    }
+
+    try {
+
+        const result = await client.query(`delete from habit_notifications where user_id = $1`, [userID])
+
+        if (result.rowCount === 0) {
+            return res.json({
+                success: true,
+                message: 'No notifications to clear'
+            })
+        }
+
+        return res.json({
+            success: true,
+            message: 'All notifications cleared successfully'
+        })
+
+    } catch (error) {
+        return res.json({
+            success: false,
+            message: error.message
         })
     }
 }

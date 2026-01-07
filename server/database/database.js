@@ -12,7 +12,6 @@ const client = new Client({
     }
 });
 
-
 export const connectDB = async () => {
     try {
         await client.connect();

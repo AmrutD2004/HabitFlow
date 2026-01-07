@@ -6,6 +6,7 @@ import axios from 'axios'
 import { AuthContext } from '../context/AuthContext'
 import toast from 'react-hot-toast'
 import dayjs from 'dayjs'
+import { DateTime, Info, Interval } from 'luxon'
 import { HabitTrackingContext } from '../context/HabitTrackingContext'
 
 const HabitTrackerTable = ({ habitData }) => {
@@ -33,6 +34,12 @@ const HabitTrackerTable = ({ habitData }) => {
         } catch (error) {
             toast.error(error.message)
         }
+    }
+
+    const today = new Date().toISOString().split('T')[0]
+
+    const handleNotAllowedClick = ()=>{
+
     }
 
 
@@ -86,19 +93,27 @@ const HabitTrackerTable = ({ habitData }) => {
                                         const dayWeekday = day.toFormat('ccc') // "Mon", "Tue", etc
                                         const isHabitDay = items.days.includes(dayWeekday)
 
+                                        const isToday = isoDate === today
+
+
 
                                         return (
                                             <td className="px-4 py-2 border-r border-b border-neutral-300 text-center">
                                                 {day.month === firstDayOfActiveMonth.month && isHabitDay && (
                                                     <label
-                                                        className={`inline-flex items-center justify-center w-6 h-6 rounded cursor-pointer
-        ${isChecked ? 'bg-green-600' : 'bg-neutral-200 hover:bg-neutral-300'}
-      `}
+                                                        className={`inline-flex items-center justify-center w-6 h-6 rounded 
+        ${isChecked ? 'bg-green-600' : 'bg-neutral-300 '}
+        ${isToday ? 'cursor-pointer hover:bg-neutral-400 transition-colors duration-300' : 'cursor-not-allowed opacity-60 bg-gray-200' }`}
                                                     >
                                                         <input
                                                             type="checkbox"
                                                             checked={isChecked}
+                                                            // disabled={!isToday}
                                                             onChange={() => {
+                                                                if(!isToday){
+                                                                    toast.error("You can only mark today's habit only!")
+                                                                    return
+                                                                }
                                                                 toggleCell(items.habit_id, isoDate)
                                                                 handleSubmit(items.habit_id, isoDate, !isChecked)
                                                             }}

@@ -11,6 +11,7 @@ import Login from './pages/auth/Login'
 import VerifyEmail from './pages/userprofile/VerifyEmail'
 import Protected from './ProtectedRoute/Protected'
 import Landing from './pages/Landing/Landing'
+import AllNotification from './pages/AllNotification'
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
           <Route path='/profile' element={<Protected><Profile /></Protected>} />
           <Route path='/dashboard' element={<Protected><Dashboard /></Protected>} />
           <Route path='/verifyEmail' element={<Protected><VerifyEmail /></Protected>} />
+          <Route path='/allnotification' element={<Protected><AllNotification /></Protected>} />
         </Routes>
       </div>
 

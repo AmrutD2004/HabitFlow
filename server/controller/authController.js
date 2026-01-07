@@ -7,7 +7,7 @@ import transporter from '../config/nodemailer.js'
 export const register = async (req, res) => {
     const { username, email, password, age, dob } = req.body
 
-    if (!username || !email || !password  || !age || !dob) {
+    if (!username || !email || !password || !age || !dob) {
         return res.json({ success: false, message: 'Missing Details' })
     }
 
@@ -51,9 +51,10 @@ export const register = async (req, res) => {
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: 'None',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
             maxAge: 24 * 60 * 60 * 1000
         })
+
 
         //Sending the welcome email
         const mailOption = {
@@ -80,63 +81,64 @@ export const register = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-  const { email, password } = req.body
+    const { email, password } = req.body
 
-  if (!email || !password) {
-    return res.status(400).json({
-      success: false,
-      message: 'Email and password are required'
-    })
-  }
+    if (!email || !password) {
+        return res.status(400).json({
+            success: false,
+            message: 'Email and password are required'
+        })
+    }
 
-  try {
-    const result = await client.query(
-      `SELECT username, email, user_id, password 
+    try {
+        const result = await client.query(
+            `SELECT username, email, user_id, password 
        FROM users WHERE email = $1`,
-      [email]
-    )
+            [email]
+        )
 
-    if (result.rows.length === 0) {
-      return res.status(401).json({
-        success: false,
-        message: 'Invalid email or password'
-      })
+        if (result.rows.length === 0) {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid email or password'
+            })
+        }
+
+        const user = result.rows[0]
+
+        const isMatch = await bcrypt.compare(password, user.password)
+        if (!isMatch) {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid credentials'
+            })
+        }
+
+        const token = jwt.sign(
+            { id: user.user_id },
+            process.env.JWT_SECRET,
+            { expiresIn: '1d' }
+        )
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            maxAge: 24 * 60 * 60 * 1000
+        })
+
+
+        return res.status(200).json({
+            success: true,
+            message: 'Login successful',
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: error.message
+        })
     }
-
-    const user = result.rows[0]
-
-    const isMatch = await bcrypt.compare(password, user.password)
-    if (!isMatch) {
-      return res.status(401).json({
-        success: false,
-        message: 'Invalid credentials'
-      })
-    }
-
-    const token = jwt.sign(
-      { id: user.user_id },
-      process.env.JWT_SECRET,
-      { expiresIn: '1d' }
-    )
-
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'None',
-      maxAge: 24 * 60 * 60 * 1000
-    })
-
-    return res.status(200).json({
-      success: true,
-      message: 'Login successful',
-    })
-
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: error.message
-    })
-  }
 }
 
 
@@ -146,8 +148,9 @@ export const logout = async (req, res) => {
         res.clearCookie('token', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
         })
+
         return res.status(200).json({
             success: true,
             message: 'Logout successful'
@@ -163,7 +166,7 @@ export const logout = async (req, res) => {
 // Email Verification
 export const sendVerifiedOtp = async (req, res) => {
     try {
-        const userID  = req.user.userID
+        const userID = req.user.userID
 
         const userResult = await client.query(
             `select email, is_account_verified, verify_otp_expires_at 
@@ -238,38 +241,38 @@ export const verifyOTP = async (req, res) => {
         const result = await client.query(`select user_id, email, verify_otp, is_account_verified, verify_otp_expires_at 
        from users where user_id = $1`, [userID])
 
-       const user = result.rows[0]
+        const user = result.rows[0]
         //Checking user
-       if(!user.user_id){
-        return res.json({
-            success : false,
-            message : 'User is not found'
-        })
-       }
+        if (!user.user_id) {
+            return res.json({
+                success: false,
+                message: 'User is not found'
+            })
+        }
 
-       // IF not verify_otp means cheaking Invalid OTP
-       if(user.verify_otp === '' || String(user.verify_otp) !== String(OTP)){
-        return res.json({
-            success : false,
-            message : 'Invalid OTP'
-        })
-       }
+        // IF not verify_otp means cheaking Invalid OTP
+        if (user.verify_otp === '' || String(user.verify_otp) !== String(OTP)) {
+            return res.json({
+                success: false,
+                message: 'Invalid OTP'
+            })
+        }
 
-       //checking Expiery of otp
-       if(user.verify_otp_expires_at < Date.now()){
-        return res.json({
-            success : false,
-            message : 'OTP has Expired'
-        })
-       }
+        //checking Expiery of otp
+        if (user.verify_otp_expires_at < Date.now()) {
+            return res.json({
+                success: false,
+                message: 'OTP has Expired'
+            })
+        }
 
-       const verifyAccount = await client.query(`Update users set is_account_verified = $1, verify_otp = $2, verify_otp_expires_at = $3 where user_id = $4`, [true, null, null, userID])
-       
-       return res.status(200).json({
-        success : true,
-        message : 'Account Verify Successfully'
-       })
-       
+        const verifyAccount = await client.query(`Update users set is_account_verified = $1, verify_otp = $2, verify_otp_expires_at = $3 where user_id = $4`, [true, null, null, userID])
+
+        return res.status(200).json({
+            success: true,
+            message: 'Account Verify Successfully'
+        })
+
 
     } catch (error) {
         return res.json({
@@ -280,15 +283,15 @@ export const verifyOTP = async (req, res) => {
 }
 
 // Checking User logged in or not
-export const isAuthenticated = async(req, res)=>{
+export const isAuthenticated = async (req, res) => {
 
-    try{
+    try {
 
         return res.json({
-            success : true
+            success: true
         })
 
-    }catch(error){
+    } catch (error) {
         return res.status(500).json({
             success: false,
             message: error.message

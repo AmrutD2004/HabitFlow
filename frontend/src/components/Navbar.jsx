@@ -1,16 +1,13 @@
-import { Bell, Search, ChevronDown, ChevronUp } from 'lucide-react'
+import { Bell, ChevronDown, ChevronUp } from 'lucide-react'
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import axios from 'axios'
-import { HabitTrackingContext } from '../context/HabitTrackingContext'
-import { DateTime } from 'luxon'
 
 const Navbar = () => {
   const [toggleMenu, setToggelMenu] = useState(false)
-  const { setIsLoggedIn, userData, setUserData, BASE_URL, habitData, isLoggedIn } = useContext(AuthContext)
-  const { userHabitTrackingData } = useContext(HabitTrackingContext)
+  const { setIsLoggedIn, userData, setUserData, BASE_URL, isLoggedIn } = useContext(AuthContext)
   const [notification, setNotification] = useState(false)
   const navigate = useNavigate()
   const handleLogout = async () => {
@@ -91,14 +88,12 @@ const Navbar = () => {
     }
   }
 
-  // Function to handle notification toggle
+
   const handleNotificationToggle = () => {
-    // If notification panel is currently open, mark all as read
     if (notification) {
       markAllAsRead()
       setUnreadCount(0)
     }
-    // Toggle the notification panel
     setNotification(!notification)
   }
 
@@ -110,40 +105,10 @@ const Navbar = () => {
     }
   }, [isLoggedIn])
 
-  //   const todayISO = DateTime.now().toISODate()
-
-  // const todayHabitIDs = [
-  //   ...new Set(
-  //     userHabitTrackingData
-  //       .filter(t => t.date === todayISO)
-  //       .map(t => t.habit_id)
-  //   )
-  // ]
-
-
-  // const todayHabits = todayHabitIDs.length
-
-
-  // const completedToday = [
-  //   ...new Set(
-  //     userHabitTrackingData
-  //       .filter(t => t.date === todayISO && t.status === true)
-  //       .map(t => t.habit_id)
-  //   )
-  // ].length
-
-
   return (
     <nav className='sticky z-50 top-0 border-b py-[4.5px] lg:py-[16.5px] border-neutral-300 px-4 bg-transparent/20 backdrop-blur'>
-      <div className='flex items-center justify-between relative '>
-        <Search className='absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400' size={14} />
-        <input type='text' placeholder='Search habits...' className='w-100 border border-neutral-300 rounded-lg pl-9 px-3 py-2 text-xs outline-red-400' />
-
+      <div className='flex items-center justify-end relative '>
         <div className='flex items-center justify-center gap-5 text-[#272323]'>
-          {/* <div className='flex items-center px-3 py-3 gap-2 bg-red-100 rounded-lg'>
-            <span className='p-1 rounded-full bg-red-400'></span>
-            <h1 className='text-sm tracking-tight'>Today: <span className='font-medium ms-5'>{completedToday}/{todayHabits}</span></h1>
-          </div> */}
           <button onClick={handleNotificationToggle} className="relative cursor-pointer">
             <Bell size={18} />
             {unreadCount > 0 && (
@@ -166,7 +131,9 @@ const Navbar = () => {
                     <h1 className='text-neutral-500'>No notifications yet</h1>
                   </div>
                 )}
-
+                <div className='w-full flex items-center justify-center border-t border-b border-neutral-300 mt-5'>
+                  <Link to={'/allnotification'} className='font-bold tracking-tight hover:bg-gray-100 transition-colors duration-300 cursor-pointer w-full py-3 text-neutral-500'>View all activity</Link>
+                </div>
               </div>
             )}
 
