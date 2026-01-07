@@ -10,8 +10,8 @@ import { DateTime, Info, Interval } from 'luxon'
 import { HabitTrackingContext } from '../context/HabitTrackingContext'
 
 const HabitTrackerTable = ({ habitData }) => {
-    const { BASE_URL } = useContext(AuthContext)  
-
+    const { BASE_URL, setPoints } = useContext(AuthContext)  
+    const POINTS_PER_HABIT = 10
     const { checkedMap, firstDayOfActiveMonth, daysOfMonth, toggleCell, getPreviousMonth, getNextMonth, getUserHabitTrackingData } = useContext(HabitTrackingContext)
 
     const handleSubmit = async (habit_id, date, status) => {
@@ -37,10 +37,6 @@ const HabitTrackerTable = ({ habitData }) => {
     }
 
     const today = new Date().toISOString().split('T')[0]
-
-    const handleNotAllowedClick = ()=>{
-
-    }
 
 
     return (
@@ -111,10 +107,11 @@ const HabitTrackerTable = ({ habitData }) => {
                                                             // disabled={!isToday}
                                                             onChange={() => {
                                                                 if(!isToday){
-                                                                    toast.error("You can only mark today's habit only!")
+                                                                    toast.error("You can mark today's habit only!")
                                                                     return
                                                                 }
                                                                 toggleCell(items.habit_id, isoDate)
+                                                                setPoints(prev => isChecked ? Math.max(prev - POINTS_PER_HABIT, 0) : prev + POINTS_PER_HABIT)
                                                                 handleSubmit(items.habit_id, isoDate, !isChecked)
                                                             }}
                                                             className="hidden"

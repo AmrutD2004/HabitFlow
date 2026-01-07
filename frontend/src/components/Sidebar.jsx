@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 
 const Sidebar = () => {
-    const { userData } = useContext(AuthContext)
+    const { userData, points } = useContext(AuthContext)
     const Menus = ([
         { title: 'Dashboard', icon: <LayoutDashboard size={16} />, path: '/dashboard' },
         { title: 'My Habits', icon: <ListTodo size={16} />, path: '/allhabits' },
@@ -34,7 +34,7 @@ const Sidebar = () => {
                         </div>
                         <div className='flex flex-col items-start justify-start leading-tight'>
                             <p className='text-xs text-neutral-500 tracking-tight leading-tight'>Total Points</p>
-                            <h1 className='font-semibold text-[#272323] text-sm'>150</h1>
+                            <h1 className='font-semibold text-[#272323] text-sm'>{points}</h1>
                         </div>
                     </div>
                     <div className='w-full flex flex-col items-start justify-start gap-1 py-2 space-y-3'>

@@ -12,6 +12,15 @@ export const habitTracking = async (req, res) => {
     }
 
     try {
+
+        const existing = await client.query(`
+            select status from habit_tracking where user_id = $1 AND habit_id = $2 AND date = $3
+            `, [userID, habit_id, date])
+
+        const prevStatus = existing.rowCount
+      ? existing.rows[0].status
+      : null
+
         await client.query(
             `
       INSERT INTO habit_tracking (user_id, habit_id, date, status)
@@ -21,6 +30,22 @@ export const habitTracking = async (req, res) => {
       `,
             [userID, habit_id, date, status]
         )
+
+        const habit = await client.query(`
+            select base_points from habits where habit_id = $1
+            `, [habit_id])
+        const points = habit.rows[0]?.base_points || 0
+
+        if ((prevStatus === false || prevStatus === null) && status === true){
+            await client.query(`
+                update users set points = points + $1 where user_id = $2
+                `, [points, userID])
+        }
+        if (prevStatus === true && status === false){
+            await client.query(`
+                update users set points = GREATEST(points - $1, 0) where user_id = $2
+                `, [points, userID])
+        }
 
         return res.json({ success: true })
 
