@@ -111,7 +111,7 @@ const HabitTrackerTable = ({ habitData }) => {
                                                             // disabled={!isToday}
                                                             onChange={() => {
                                                                 if(!isToday){
-                                                                    toast.error("You can only mark today's habit only!")
+                                                                    toast.error("You can mark today's habit only!")
                                                                     return
                                                                 }
                                                                 toggleCell(items.habit_id, isoDate)
