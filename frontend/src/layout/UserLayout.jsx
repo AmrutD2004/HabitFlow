@@ -21,6 +21,7 @@ const UserLayout = ({ children }) => {
           ease : 'easeInOut'
         }
       }}
+      className=''
       >
         <Sidebar />
       </motion.div>

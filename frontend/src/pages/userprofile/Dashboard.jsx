@@ -6,11 +6,16 @@ import HabitTrackerTable from '../../components/HabitTrackerTable'
 import StatsOverview from '../../components/StatsOverview'
 import { motion } from 'motion/react'
 import Quotes from '../../components/Quotes'
+import BarChart from '../analysis/BarChart'
+import DoughnutChart from '../analysis/DoughnutChart'
+import LineChart from '../analysis/LineChart'
+import { HabitTrackingContext } from '../../context/HabitTrackingContext'
 
 
 const Dashboard = () => {
   const { BASE_URL, userData, authChecked, habitData } = useContext(AuthContext)
   const [todayHour, setTodayHour] = useState('')
+  const { userHabitTrackingData } = useContext(HabitTrackingContext)
   const [openModal, setOpenModal] = useState(false)
 
 
@@ -67,9 +72,6 @@ const Dashboard = () => {
             <p className='text-sm font-medium text-neutral-500'>Welcome Back, {userData?.username} !</p>
           </motion.div>
         </div>
-        <div className='w-full mt-6'>
-          <StatsOverview />
-        </div>
         {habitData.length === 0 ? (
           <div className='flex items-center justify-center h-30'>
             <h1 className='text-neutral-500'>You haven’t added any habits yet. Create one to get started.</h1>
@@ -91,7 +93,7 @@ const Dashboard = () => {
                   ease: "easeInOut"
                 }
               }}
-              className='my-10 rounded-lg shadow overflow-hidden'>
+              className='my-3 rounded-lg shadow overflow-hidden'>
               <motion.div
                 initial={{
                   filter: 'blur(10px)'
@@ -113,7 +115,61 @@ const Dashboard = () => {
             </motion.div>
           </>
         )}
-      {/* <div className='w-full mt-10'>
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mt-6">
+
+          {/* LEFT: Stats Overview */}
+          <div className="lg:col-span-2">
+            <StatsOverview />
+          </div>
+
+          {/* RIGHT: Analysis Section */}
+          <div className="lg:col-span-3 flex flex-col gap-6">
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+              <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                transition: { duration: 0.3, ease: "easeInOut" }
+              }}
+              className="w-full border border-neutral-300 shadow-sm px-5 py-3"
+            >
+              <h2 className="text-sm font-medium text-neutral-600 mb-2">
+                Monthly completion trend
+              </h2>
+              <div className='flex items-center justify-center h-full'>
+                <LineChart
+                userHabitTrackingData={userHabitTrackingData}
+                habitData={habitData}
+              />
+              </div>
+            </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  transition: { duration: 0.3, delay: 0.3, ease: "easeInOut" }
+                }}
+                className="border border-neutral-300 shadow-sm p-5 h-[350px] flex flex-col"
+              >
+                <h2 className="text-sm font-medium text-neutral-600 mb-2">
+                  Category Distribution
+                </h2>
+                <div className="flex-1 flex items-center justify-center scale-70">
+                  <DoughnutChart habitData={habitData} />
+                </div>
+              </motion.div>
+
+            </div>
+          </div>
+        </div>
+
+
+        
+        {/* <div className='w-full mt-10'>
         <Quotes />
       </div> */}
       </div>

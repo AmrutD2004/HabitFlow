@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import ProgessBar from './ProgessBar'
@@ -10,8 +10,8 @@ import { DateTime, Info, Interval } from 'luxon'
 import { HabitTrackingContext } from '../context/HabitTrackingContext'
 
 const HabitTrackerTable = ({ habitData }) => {
-    const { BASE_URL } = useContext(AuthContext)  
-
+    const { BASE_URL, setPoints } = useContext(AuthContext)  
+    const POINTS_PER_HABIT = 10
     const { checkedMap, firstDayOfActiveMonth, daysOfMonth, toggleCell, getPreviousMonth, getNextMonth, getUserHabitTrackingData } = useContext(HabitTrackingContext)
 
     const handleSubmit = async (habit_id, date, status) => {
@@ -38,10 +38,6 @@ const HabitTrackerTable = ({ habitData }) => {
 
     const today = new Date().toISOString().split('T')[0]
 
-    const handleNotAllowedClick = ()=>{
-
-    }
-
 
     return (
         <div className='overflow-x-auto '>
@@ -57,7 +53,9 @@ const HabitTrackerTable = ({ habitData }) => {
                             <th className="text-left px-4 py-3 border-r border-neutral-300  font-medium text-red-600 text-sm w-64">Habits</th>
                             <th className=" px-4 py-3 border-r border-neutral-300 w-20 text-center  font-medium text-red-600 text-sm">Category</th>
                             {daysOfMonth.map((day, idx) => (
-                                <th key={idx} className={`px-4 py-3 border-r border-neutral-300 w-10 text-center  font-medium text-red-600 text-sm`}>{day.month === firstDayOfActiveMonth.month ? day.day : ''}</th>
+                                <th key={idx} className={`px-4 py-3 border-r border-neutral-300 w-10 text-center  font-medium text-red-600 text-sm`}>{day.month === firstDayOfActiveMonth.month ? day.day : ''}
+                                
+                                </th>
                             ))}
                             <th className=" px-4 py-3 border-r border-neutral-300  w-10 text-center  font-medium text-red-600 text-sm">Status</th>
                         </tr>
@@ -101,7 +99,7 @@ const HabitTrackerTable = ({ habitData }) => {
                                             <td className="px-4 py-2 border-r border-b border-neutral-300 text-center">
                                                 {day.month === firstDayOfActiveMonth.month && isHabitDay && (
                                                     <label
-                                                        className={`inline-flex items-center justify-center w-6 h-6 rounded 
+                                                        className={`inline-flex items-center justify-center w-4 h-4 rounded 
         ${isChecked ? 'bg-green-600' : 'bg-neutral-300 '}
         ${isToday ? 'cursor-pointer hover:bg-neutral-400 transition-colors duration-300' : 'cursor-not-allowed opacity-60 bg-gray-200' }`}
                                                     >
@@ -115,9 +113,10 @@ const HabitTrackerTable = ({ habitData }) => {
                                                                     return
                                                                 }
                                                                 toggleCell(items.habit_id, isoDate)
+                                                                setPoints(prev => isChecked ? Math.max(prev - POINTS_PER_HABIT, 0) : prev + POINTS_PER_HABIT)
                                                                 handleSubmit(items.habit_id, isoDate, !isChecked)
                                                             }}
-                                                            className="hidden"
+                                                            className="hidden "
                                                         />
                                                     </label>
                                                 )}

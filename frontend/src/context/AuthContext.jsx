@@ -9,6 +9,7 @@ export const AuthContextProvider = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [authChecked, setAuthChecked] = useState(false)
     const [userData, setUserData] = useState(false)
+    const [points, setPoints] = useState(0)
 
     axios.defaults.withCredentials = true
 
@@ -16,9 +17,10 @@ export const AuthContextProvider = (props) => {
         try {
             const response = await axios.get(`${BASE_URL}/user/userData`)
             const data = response.data
-            console.log(data)
+           
             if (data.success === true) {
                 setUserData(data.userData)
+                setPoints(data.userData.points)
             } else {
                 toast.error(data.message)
             }
@@ -55,7 +57,7 @@ export const AuthContextProvider = (props) => {
         try {
             const response = await axios.get(`${BASE_URL}/habit/getHabits`)
             const data = await response.data
-            console.log(data)
+            
             if (data.success) {
                 setHabitData(data.habits)
             }
@@ -74,7 +76,7 @@ export const AuthContextProvider = (props) => {
         isLoggedIn, setIsLoggedIn,
         userData, setUserData,
         getUserData, authChecked,
-        habitData, getHabitData
+        habitData, getHabitData, points, setPoints
     }
     return (
         <AuthContext.Provider value={value}>

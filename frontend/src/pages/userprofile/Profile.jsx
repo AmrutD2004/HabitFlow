@@ -119,7 +119,7 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-            <button onClick={() => setToggel(!toggle)} className='text-[#272323] px-4 py-2 border border-neutral-300 bg-gray-50 hover:bg-gray-100 cursor-pointer transition-colors duration-300 rounded-lg shadow-sm font-medium tracking-tight leading-tight'>{!toggle ? 'Edit Profile' : 'Cancle'}</button>
+            <button onClick={() => setToggel(!toggle)} className='text-[#272323] px-4 py-2 border border-neutral-300 bg-gray-50 hover:bg-gray-100 cursor-pointer transition-colors duration-300 rounded-lg shadow-sm font-medium tracking-tight leading-tight'>{!toggle ? 'Edit Profile' : 'Cancel'}</button>
           </div>
           <AnimatePresence>
           {toggle && (
