@@ -60,7 +60,7 @@ userHabitTrackingData.forEach(item => {
 
   return (
     <>
-    <div className='scale-120'>
+    <div className='scale-100 lg:scale-120'>
       <Bar data={data} options={option}/>
     </div>
 
