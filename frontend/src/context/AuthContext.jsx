@@ -17,7 +17,7 @@ export const AuthContextProvider = (props) => {
         try {
             const response = await axios.get(`${BASE_URL}/user/userData`)
             const data = response.data
-            console.log(data)
+           
             if (data.success === true) {
                 setUserData(data.userData)
                 setPoints(data.userData.points)
@@ -57,7 +57,7 @@ export const AuthContextProvider = (props) => {
         try {
             const response = await axios.get(`${BASE_URL}/habit/getHabits`)
             const data = await response.data
-            console.log(data)
+            
             if (data.success) {
                 setHabitData(data.habits)
             }
