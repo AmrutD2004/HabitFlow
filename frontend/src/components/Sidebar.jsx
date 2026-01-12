@@ -26,17 +26,15 @@ const Sidebar = () => {
     { title: 'Profile', icon: <User size={18} />, path: '/profile' },
   ]
 
-  /* Detect screen size */
   useEffect(() => {
     const handleResize = () => {
       const mobile = window.innerWidth < 768
       setIsMobile(mobile)
-      setSidebarCollapse(mobile) // auto collapse on mobile
+      setSidebarCollapse(mobile)
     }
 
-    handleResize() // initial
+    handleResize()
     window.addEventListener('resize', handleResize)
-
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
@@ -64,21 +62,21 @@ const Sidebar = () => {
             </Link>
           )}
 
-            <button
-              onClick={() => setSidebarCollapse(!sidebarCollapse)}
-              className='transition-transform duration-300 ms-2'
-            >
-              <ArrowLeftToLine
-                size={20}
-                className={`${sidebarCollapse ? 'rotate-180' : ''}`}
-              />
-            </button>
+          <button
+            onClick={() => setSidebarCollapse(!sidebarCollapse)}
+            className='transition-transform duration-300 ms-2'
+          >
+            <ArrowLeftToLine
+              size={20}
+              className={`${sidebarCollapse ? 'rotate-180' : ''}`}
+            />
+          </button>
         </div>
 
         {/* Points */}
         {!sidebarCollapse && (
           <div className='px-3 py-4'>
-            <div className='flex items-center gap-3 bg-red-100 px-3 py-3 '>
+            <div className='flex items-center gap-3 bg-red-100 px-3 py-3'>
               <div className='p-2 rounded-full bg-linear-to-tl from-[#ffdd00] to-[#e6bc18] text-white'>
                 <Sparkles size={18} />
               </div>
@@ -93,21 +91,34 @@ const Sidebar = () => {
         {/* Menu */}
         <nav className='flex-1 px-2 space-y-2 mt-5'>
           {Menus.map((item, idx) => (
-            <NavLink
-              key={idx}
-              to={item.path}
-              className={({ isActive }) =>
-                `flex items-center px-3 py-2 text-sm font-medium  transition-all
-                ${sidebarCollapse ? 'justify-center' : 'gap-3'}
-                ${isActive
-                  ? 'bg-[#ed1d25] text-white'
-                  : 'text-[#272323] hover:bg-red-100'
-                }`
-              }
-            >
-              {item.icon}
-              {!sidebarCollapse && item.title}
-            </NavLink>
+            <div key={idx} className='relative group'>
+              <NavLink
+                to={item.path}
+                className={({ isActive }) =>
+                  `flex items-center px-3 py-2 text-sm font-medium transition-all
+                  ${sidebarCollapse ? 'justify-center' : 'gap-3'}
+                  ${isActive
+                    ? 'bg-[#ed1d25] text-white'
+                    : 'text-[#272323] hover:bg-red-100'
+                  }`
+                }
+              >
+                {item.icon}
+                {!sidebarCollapse && item.title}
+              </NavLink>
+
+              {/* Tooltip */}
+              {sidebarCollapse && (
+                <span
+                  className='pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-3
+                  opacity-0 group-hover:opacity-100 group-hover:translate-x-1
+                  transition-all duration-200
+                  bg-[#272323] text-white text-xs px-3 py-1 rounded-md shadow-md whitespace-nowrap z-50'
+                >
+                  {item.title}
+                </span>
+              )}
+            </div>
           ))}
         </nav>
 

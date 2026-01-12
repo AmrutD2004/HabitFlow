@@ -106,7 +106,7 @@ const Navbar = () => {
   }, [isLoggedIn])
 
   return (
-    <nav className='sticky z-50 top-0 border-b py-[4.5px] lg:py-[16.5px] border-neutral-300 px-4 bg-transparent/20 backdrop-blur'>
+    <nav className='sticky z-50 top-0 border-b py-[6px] lg:py-[16px] border-neutral-300 px-4 bg-transparent/20 backdrop-blur'>
       <div className='flex items-center justify-end relative '>
         <div className='flex items-center justify-center gap-5 text-[#272323]'>
           <button onClick={handleNotificationToggle} className="relative cursor-pointer">

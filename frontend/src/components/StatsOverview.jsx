@@ -36,7 +36,7 @@ const StatsOverview = () => {
                 <div className='flex items-center gap-2'>
                     <h1 className='text-3xl leading-tight font-semibold flex-row items-end'>{streak } <span className='text-sm text-neutral-600'>days</span></h1>
                 </div>
-                <h1 className='text-sm text-neutral-500 tracking-wide leading-2'>Current Streak</h1>
+                <h1 className='text-sm text-neutral-500 tracking-wide leading-4 lg:leading-2'>Current Streak</h1>
             </motion.div>
             <motion.div
             initial = {{
@@ -59,7 +59,7 @@ const StatsOverview = () => {
                 <div className='flex items-center gap-2'>
                     <h1 className='text-3xl leading-tight font-semibold flex-row items-end'>{totalCountofCompletions}</h1>
                 </div>
-                <h1 className='text-sm text-neutral-500 tracking-wide leading-2'>Total Completion</h1>
+                <h1 className='text-sm text-neutral-500 tracking-wide leading-4 lg:leading-2'>Total Completion</h1>
             </motion.div>
             <motion.div
             initial = {{

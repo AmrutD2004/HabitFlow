@@ -51,7 +51,7 @@ const AllNotification = () => {
     <UserLayout>
       <div className="max-w-5xl mx-auto px-4">
         {/* Header */}
-        <div className='flex items-center justify-between mx-4'>
+        <div className='flex flex-col lg:flex-row items-center justify-between mx-4 '>
           <div className="flex flex-col gap-1 mb-5">
           <h1 className="text-2xl font-medium text-neutral-800">
             Notifications
@@ -72,7 +72,7 @@ const AllNotification = () => {
             <p className="font-medium">No notifications yet</p>
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-3 mt-4 lg:mt-0">
             {allnotification.map(item => (
               <div
                 key={item.notification_id}
