@@ -3,11 +3,14 @@ const { Client } = pkg;
 
 
 const client = new Client({
-    host: 'localhost',
-    user: 'postgres',
-    password: 'Amrut2004.',
-    database: 'postgres',
-    port: 5432,  
+    host: 'ep-shy-mud-a14311sx-pooler.ap-southeast-1.aws.neon.tech',
+    user: 'neondb_owner',
+    password: 'npg_bUCMwkje4W0Y',
+    database: 'neondb',
+    port: 5432,
+    ssl: {
+        require: true
+    }  
 });
 
 export const connectDB = async () => {
