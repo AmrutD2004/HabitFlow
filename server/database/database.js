@@ -7,7 +7,7 @@ const client = new Client({
     user: 'postgres',
     password: 'Amrut2004.',
     database: 'postgres',
-    port: 5432,
+    port: 5432,  
 });
 
 export const connectDB = async () => {
