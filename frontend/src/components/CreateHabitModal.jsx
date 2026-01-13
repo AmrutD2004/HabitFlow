@@ -82,7 +82,7 @@ const CreateHabitModal = ({ onClose }) => {
       <div className='max-w-4xl mx-auto'>
         <form onSubmit={handleSubmit}
 
-          className='border border-neutral-300 rounded-lg w-110 py-6 px-4 bg-[#fefffe] flex flex-col space-y-4'>
+          className='border border-neutral-300 rounded-lg w-90 py-6 px-4 bg-[#fefffe] flex flex-col space-y-4 lg:w-110'>
           <div className='flex items-center justify-between'>
             <h1 className=' tracking-tight font-medium leading-tight text-[#272323]'>Create New Habit</h1>
             <X onClick={onClose} size={18} className='text-neutral-600 hover:text-black transition-colors duration-300 cursor-pointer' />
