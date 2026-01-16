@@ -130,7 +130,7 @@ const HabitTrackerTable = ({ habitData }) => {
                                                                 setPoints(prev => isChecked ? Math.max(prev - POINTS_PER_HABIT, 0) : prev + POINTS_PER_HABIT)
                                                                 handleSubmit(items.habit_id, isoDate, !isChecked)
                                                             }}
-                                                            className="hidden "
+                                                            className="hidden"
                                                         />
                                                     </label>
                                                 )}

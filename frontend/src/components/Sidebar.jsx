@@ -41,7 +41,7 @@ const Sidebar = () => {
   return (
     <div
       className={`h-screen transition-all duration-300 overflow-hidden
-        ${sidebarCollapse ? 'w-16' : 'w-64'}`}
+        ${sidebarCollapse ? 'w-0 lg:w-16' : 'w-64'}`}
     >
       <aside className='flex flex-col h-full w-full border-r border-neutral-300 bg-white'>
 

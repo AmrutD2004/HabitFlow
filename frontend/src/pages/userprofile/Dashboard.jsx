@@ -136,10 +136,10 @@ const Dashboard = () => {
               }}
               className="w-full border border-neutral-300 shadow-sm px-5 py-3"
             >
-              <h2 className="text-sm font-medium text-neutral-600 mb-2">
+              <h2 className="text-sm font-medium text-neutral-600 w-full bg-red-50 px-5 py-3 shadow-sm">
                 Monthly completion trend
               </h2>
-              <div className='flex items-center justify-center h-full'>
+              <div className='flex items-center justify-center h-full scale-90 lg:scale-110'>
                 <LineChart
                 userHabitTrackingData={userHabitTrackingData}
                 habitData={habitData}
@@ -153,12 +153,12 @@ const Dashboard = () => {
                   scale: 1,
                   transition: { duration: 0.3, delay: 0.3, ease: "easeInOut" }
                 }}
-                className="border border-neutral-300 shadow-sm p-5 h-[350px] flex flex-col"
+                className="border border-neutral-300 shadow-sm  px-5 py-3 h-[300px] flex flex-col"
               >
-                <h2 className="text-sm font-medium text-neutral-600 mb-2">
+                <h2 className="text-sm font-medium text-neutral-600 w-full bg-red-50 px-5 py-3 shadow-sm">
                   Category Distribution
                 </h2>
-                <div className="flex-1 flex items-center justify-center scale-70">
+                <div className="flex-1 flex items-center justify-center scale-70 lg:scale-70 h-full">
                   <DoughnutChart habitData={habitData} />
                 </div>
               </motion.div>
