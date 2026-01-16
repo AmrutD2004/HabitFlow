@@ -43,6 +43,7 @@ const HabitTrackerTable = ({ habitData }) => {
     /* Desktop-only fixed container */
     <div className=" lg:block max-w-[1366px] mx-auto">
       <div className=" rounded overflow-hidden">
+
         {/* Month Header */}
         <div className="flex items-center justify-center gap-6 py-2 bg-red-50 border-b border-red-500 text-sm font-semibold">
           <button onClick={getPreviousMonth}>
@@ -59,7 +60,7 @@ const HabitTrackerTable = ({ habitData }) => {
         </div>
 
         {/* FIXED TABLE */}
-        <table className="table-fixed w-full border-collapse text-[11px]">
+        <table className="table-fixed w-full border-collapse text-[10px]">
           <thead className="bg-red-100 border-b border-red-500">
             <tr>
               <th className="w-[180px] font-bold px-2 py-2 text-left text-red-600">
@@ -89,17 +90,17 @@ const HabitTrackerTable = ({ habitData }) => {
                 );
               })}
 
-              <th className="w-[80px] px-1 py-2 text-center text-red-600">
+              <th className="w-20 px-2 py-1 text-center text-red-600">
                 Status
               </th>
             </tr>
           </thead>
 
-          <tbody className="bg-white font-medium">
+          <tbody className="bg-white font-medium text-neutral-800">
             {habitData
-              .filter((h) => h.is_active)
-              .map((habit) => {
-                const scheduledDates = daysOfMonth.filter((day) => {
+              .filter(h => h.is_active)
+              .map(habit => {
+                const scheduledDates = daysOfMonth.filter(day => {
                   const weekday = day.toFormat("ccc");
                   return (
                     day.month === firstDayOfActiveMonth.month &&
@@ -108,7 +109,7 @@ const HabitTrackerTable = ({ habitData }) => {
                 });
 
                 const totalDays = scheduledDates.length;
-                const completedDays = scheduledDates.filter((day) => {
+                const completedDays = scheduledDates.filter(day => {
                   const key = `${habit.habit_id}-${day.toISODate()}`;
                   return checkedMap[key];
                 }).length;
@@ -120,7 +121,7 @@ const HabitTrackerTable = ({ habitData }) => {
 
                 return (
                   <tr key={habit.habit_id}>
-                    <td className="px-2 py-1 border border-neutral-300 truncate">
+                    <td className="px-2 py-1 border border-neutral-300 ">
                       {habit.habit_title}
                     </td>
 
@@ -128,9 +129,8 @@ const HabitTrackerTable = ({ habitData }) => {
                       {habit.category}
                     </td>
 
-                    {visibleDays.map((day) => {
-                      if (day.month !== firstDayOfActiveMonth.month)
-                        return null;
+                    {visibleDays.map(day => {
+                      if (day.month !== firstDayOfActiveMonth.month) return null;
 
                       const isoDate = day.toISODate();
                       const cellKey = `${habit.habit_id}-${isoDate}`;
@@ -147,7 +147,11 @@ const HabitTrackerTable = ({ habitData }) => {
                           {isHabitDay && (
                             <label
                               className={`inline-flex w-3 h-3 rounded
-                                ${isChecked ? "bg-green-600" : "bg-neutral-300"}
+                                ${
+                                  isChecked
+                                    ? "bg-green-600"
+                                    : "bg-neutral-300"
+                                }
                                 ${
                                   isToday
                                     ? "cursor-pointer hover:bg-neutral-400"
@@ -168,7 +172,7 @@ const HabitTrackerTable = ({ habitData }) => {
                                   }
 
                                   toggleCell(habit.habit_id, isoDate);
-                                  setPoints((prev) =>
+                                  setPoints(prev =>
                                     isChecked
                                       ? Math.max(prev - POINTS_PER_HABIT, 0)
                                       : prev + POINTS_PER_HABIT
