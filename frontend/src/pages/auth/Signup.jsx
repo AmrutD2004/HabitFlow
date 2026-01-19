@@ -50,11 +50,11 @@ const Signup = () => {
   }
   return (
     <div className='max-w-7xl min-h-screen mx-auto flex flex-col items-center justify-center space-y-2'>
-      <div className='flex flex-col items-start justify-start gap-1.5 w-100 '>
+      <div className='flex flex-col items-start justify-start gap-1.5 w-90  lg:w-100'>
         <h1 className='text-2xl font-semibold tracking-tight text-shadow-2xs'>Create account</h1>
         <p className='text-sm text-neutral-500'>Start your habit tracking journey today</p>
       </div>
-      <form onSubmit={handleSubmit} className='border border-neutral-300  px-4 py-3 w-100 flex flex-col space-y-4 shadow-sm bg-[#fefffe]'>
+      <form onSubmit={handleSubmit} className='border border-neutral-300  px-4 py-3 w-90 flex flex-col space-y-4 shadow-sm bg-[#fefffe] lg:w-100'>
         <div className='flex flex-col items-start justify-start gap-2'>
           <label className='text-sm font-medium flex items-center gap-1'><User size={14} />Full Name</label>
           <input onChange={handleChange} className='w-full px-3 py-2 border border-neutral-300  outline-none text-sm' type="text" name='username' placeholder='John Doe' value={formData.username} />

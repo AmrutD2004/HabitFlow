@@ -10,7 +10,7 @@ const client = new Client({
     port: 5432,
     ssl: {
         require: true
-    }
+    }  
 });
 
 export const connectDB = async () => {

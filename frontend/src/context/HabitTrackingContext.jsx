@@ -89,6 +89,23 @@ export const HabitTrackingProvider = (props) => {
         }
     }, [isLoggedIn])
 
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+
+useEffect(() => {
+  const onResize = () => setIsMobile(window.innerWidth < 768)
+  window.addEventListener('resize', onResize)
+  return () => window.removeEventListener('resize', onResize)
+}, [])
+
+    const todayISO = DateTime.now().toISODate()
+    const visibleDays = isMobile
+        ? daysOfMonth.filter(
+            day =>
+                day.month === firstDayOfActiveMonth.month &&
+                day.toISODate() === todayISO
+        )
+        : daysOfMonth
+
 
     const value = {
         // state
@@ -102,7 +119,9 @@ export const HabitTrackingProvider = (props) => {
         getNextMonth,
 
         userHabitTrackingData,
-        getUserHabitTrackingData
+        getUserHabitTrackingData,
+        isMobile,
+        visibleDays
     }
 
     return (

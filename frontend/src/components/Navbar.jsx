@@ -1,14 +1,33 @@
-import { Bell, ChevronDown, ChevronUp } from 'lucide-react'
+import { Bell, ChevronDown, ChevronUp, Hamburger, Menu } from 'lucide-react'
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { Link, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import axios from 'axios'
+import Sidebar from './Sidebar'
+import {
+  LayoutDashboard,
+  ListTodo,
+  ChartNoAxesCombined,
+  Trophy,
+  User,
+  Flame,
+  Sparkles,
+  ArrowLeftToLine
+} from 'lucide-react'
 
 const Navbar = () => {
+  const Menus = [
+    { title: 'Dashboard', icon: <LayoutDashboard size={16} />, path: '/dashboard' },
+    { title: 'My Habits', icon: <ListTodo size={16} />, path: '/allhabits' },
+    { title: 'Analysis', icon: <ChartNoAxesCombined size={16} />, path: '/analysis' },
+    { title: 'Achievements', icon: <Trophy size={16} />, path: '/achievements' },
+    { title: 'Profile', icon: <User size={18} />, path: '/profile' },
+  ]
   const [toggleMenu, setToggelMenu] = useState(false)
   const { setIsLoggedIn, userData, setUserData, BASE_URL, isLoggedIn } = useContext(AuthContext)
   const [notification, setNotification] = useState(false)
+  const [openSidebar, setSideBar] = useState(false)
   const navigate = useNavigate()
   const handleLogout = async () => {
     try {
@@ -77,13 +96,13 @@ const Navbar = () => {
     }
   }
 
-  const markAllAsRead = async()=>{
-    try{
+  const markAllAsRead = async () => {
+    try {
       axios.defaults.withCredentials = true
       const response = await axios.put(`${BASE_URL}/notification/markAllAsRead`)
       const data = await response.data
       console.log(data)
-    }catch(error){
+    } catch (error) {
       console.log(error.message)
     }
   }
@@ -107,8 +126,12 @@ const Navbar = () => {
 
   return (
     <nav className='sticky z-50 top-0 border-b py-[6px] lg:py-[16px] border-neutral-300 px-4 bg-transparent/20 backdrop-blur'>
-      <div className='flex items-center justify-end relative '>
+      <div className='flex items-center justify-between lg:justify-end relative '>
+        <button onClick={() => setSideBar(!openSidebar)} className=' lg:hidden'>
+          <Menu />
+        </button>
         <div className='flex items-center justify-center gap-5 text-[#272323]'>
+
           <button onClick={handleNotificationToggle} className="relative cursor-pointer">
             <Bell size={18} />
             {unreadCount > 0 && (
@@ -170,7 +193,29 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      {openSidebar && (
+        <div
+          className="flex flex-col items-start justify-start mt-1 w-64 h-screen
+               bg-white px-3 shadow-lg fixed left-0 z-50 lg:hidden"
+        >
+          {Menus.map((menu, index) => (
+            <Link
+              key={index}
+              to={menu.path}
+              className="flex items-center gap-2 w-54
+                   hover:bg-red-100 text-sm
+                   px-2.5 py-4 transition-colors duration-200"
+              onClick={() => setSideBar(false)} // optional: auto-close sidebar
+            >
+              {menu.icon}
+              <span>{menu.title}</span>
+            </Link>
+          ))}
+        </div>
+      )}
+
     </nav>
+
   )
 }
 
