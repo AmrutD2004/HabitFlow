@@ -69,7 +69,7 @@ const Dashboard = () => {
             className="flex flex-col items-start justify-start gap-1"
           >
             <h1 className="text-3xl text-shadow-xs font-bold tracking-tight text-[#272323]">
-              Good {todayHour}, Hello! 👋
+               Hello!👋, Good {todayHour}
             </h1>
             <p className="text-sm font-medium text-neutral-500">
               Welcome Back, {userData?.username} !
@@ -112,15 +112,17 @@ const Dashboard = () => {
                     delay: 0.2,
                   },
                 }}
-                className="flex items-start justify-start px-5 py-4"
+                className="flex flex-col items-center justify-start px-5 py-4 gap-4 lg:flex-row lg:justify-between w-full"
               >
-                <h1 className="text-lg font-semibold tracking-tight text-neutral-800 flex items-center gap-3">
+                <h1 className="lg:text-lg font-semibold tracking-tight text-neutral-800 flex items-center gap-3 text-sm w-full">
                   <span className="p-3 bg-[#ec3e55] text-white font-semibold scale-90 shadow-inner">
                     <FlameKindling />
                   </span>
                   Track Your Habits Day by Day
                 </h1>
-                <TodaysStatusBar habits={habitData} checkedMap={checkedMap} />
+                <div className="w-full ms-auto">
+                  <TodaysStatusBar habits={habitData} checkedMap={checkedMap} />
+                </div>
               </motion.div>
               <HabitTrackerTable habitData={habitData} />
             </motion.div>

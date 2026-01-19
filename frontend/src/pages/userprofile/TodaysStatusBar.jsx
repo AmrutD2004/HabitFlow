@@ -43,7 +43,7 @@ const TodaysStatusBar = ({ habits, checkedMap }) => {
   }
 
   return (
-    <div className="ml-auto flex items-center gap-4">
+    <div className="ml-auto flex items-center lg:justify-end gap-4">
       {/* Text */}
       <div className="flex flex-col text-right">
         <span className="text-xs text-neutral-500">Today's Progress</span>
