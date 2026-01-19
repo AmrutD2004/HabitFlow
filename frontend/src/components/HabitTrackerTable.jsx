@@ -154,7 +154,7 @@ const HabitTrackerTable = ({ habitData }) => {
                                 }
                                 ${
                                   isToday
-                                    ? "cursor-pointer hover:bg-neutral-400"
+                                    ? "cursor-pointer hover:bg-neutral-400 transition-colors duration-200"
                                     : "opacity-50 cursor-not-allowed"
                                 }
                               `}
