@@ -63,7 +63,7 @@ const HabitTrackerTable = ({ habitData }) => {
         <table className="table-fixed w-full border-collapse text-[10px]">
           <thead className="bg-red-100 border-b border-red-500">
             <tr>
-              <th className="w-[180px] font-bold px-2 py-2 text-left text-red-600">
+              <th className="w-[90px] lg:w-[180px] font-bold px-2 py-2 text-left text-red-600">
                 Habits
               </th>
 
@@ -121,7 +121,7 @@ const HabitTrackerTable = ({ habitData }) => {
 
                 return (
                   <tr key={habit.habit_id}>
-                    <td className="px-2 py-1 border border-neutral-300 ">
+                    <td className="w-[90px] lg:w-[180px] px-2 py-1 border border-neutral-300 ">
                       {habit.habit_title}
                     </td>
 
