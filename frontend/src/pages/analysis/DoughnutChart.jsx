@@ -16,7 +16,6 @@ const DoughnutChart = ({ habitData = [] }) => {
   habitData.forEach(item => {
     const category = item.category
     categoryCount[category] = (categoryCount[category] || 0) + 1
-    console.log( categoryCount[category])
   })
 
   const labels = Object.keys(categoryCount)
