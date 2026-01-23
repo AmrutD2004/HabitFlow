@@ -22,7 +22,7 @@ const Sidebar = () => {
     { title: 'Dashboard', icon: <LayoutDashboard size={16} />, path: '/dashboard' },
     { title: 'My Habits', icon: <ListTodo size={16} />, path: '/allhabits' },
     { title: 'Analysis', icon: <ChartNoAxesCombined size={16} />, path: '/analysis' },
-    { title: 'Achievements', icon: <Trophy size={16} />, path: '/achievements' },
+    // { title: 'Achievements', icon: <Trophy size={16} />, path: '/achievements' },
     { title: 'Profile', icon: <User size={18} />, path: '/profile' },
   ]
 
