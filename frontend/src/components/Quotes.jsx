@@ -17,7 +17,7 @@ const Quotes = () => {
         },
     ]
     return (
-        <div className='flex items-center justify-center gap-10'>
+        <div className='flex flex-col lg:flex-row items-center justify-center gap-10'>
             {quotes.map((items, idx) => (
                 <motion.div key={idx} 
                 initial = {{

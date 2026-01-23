@@ -16,7 +16,7 @@ const Dashboard = () => {
   const { BASE_URL, userData, authChecked, habitData } =
     useContext(AuthContext);
   const [todayHour, setTodayHour] = useState("");
-  const { userHabitTrackingData } = useContext(HabitTrackingContext);
+  const { userHabitTrackingData, getUserHabitTrackingData } = useContext(HabitTrackingContext);
   const [openModal, setOpenModal] = useState(false);
   const { checkedMap } = useContext(HabitTrackingContext);
   const getTimeofDay = () => {
@@ -38,6 +38,7 @@ const Dashboard = () => {
   };
   useEffect(() => {
     setTodayHour(getTimeofDay());
+    getUserHabitTrackingData()
   }, []);
 
   if (!authChecked) {
@@ -176,9 +177,9 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* <div className='w-full mt-10'>
+        <div className='w-full mt-10'>
         <Quotes />
-      </div> */}
+      </div>
       </div>
     </UserLayout>
   );

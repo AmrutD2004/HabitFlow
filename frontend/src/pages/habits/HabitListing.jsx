@@ -58,7 +58,7 @@ const HabitListing = () => {
             })
             const data = await response.data
             if (data.success) {
-                toast.success(data.message)
+                // toast.success(data.message)
                 setMenu(null)
                 getHabitData()
             }
