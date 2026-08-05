@@ -77,6 +77,7 @@ const EditHabitModal = ({ onClose, habitID, habit }) => {
             setLoading(false)
         }finally{
             setLoading(false)
+        }
     }
 
     useEffect(() => {
