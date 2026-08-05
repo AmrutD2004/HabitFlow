@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthContext';
-import { Plus, Save, X, Zap } from 'lucide-react'
+import { Plus, Save, X, Zap, Loader2 } from 'lucide-react'
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 
 const EditHabitModal = ({ onClose, habitID, habit }) => {
     const [repeatDays, setRepeatDays] = useState([]);
+    const [loading, setLoading] = useState(false)
 
 
     const [formData, setFormData] = useState({
@@ -52,6 +53,7 @@ const EditHabitModal = ({ onClose, habitID, habit }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
 
             const response = await axios.put(`${BASE_URL}/habit/editHabit`, {
@@ -72,7 +74,9 @@ const EditHabitModal = ({ onClose, habitID, habit }) => {
         } catch (error) {
             toast.error(error.message)
             console.log(data.error)
-        }
+            setLoading(false)
+        }finally{
+            setLoading(false)
     }
 
     useEffect(() => {
@@ -147,7 +151,9 @@ const EditHabitModal = ({ onClose, habitID, habit }) => {
                     <div className='flex items-end justify-end'>
                         <div className='flex items-center gap-3 text-sm'>
                             <button onClick={onClose} className='px-2 py-1 hover:bg-[#ed1d25] text-neutral-700 border border-neutral-300 cursor-pointe transition-colors duration-300 shadow-sm cursor-pointer font-medium hover:text-white'>Cancle</button>
-                            <button className='px-2 py-1 bg-[#ed1d25] cursor-pointer text-white shadow-sm flex items-center gap-2 font-medium'><Save size={14} />Save Changes</button>
+                            <button disable={loading} className='px-2 py-1 bg-[#ed1d25] cursor-pointer text-white shadow-sm font-medium'>
+                                {loading ? <span className="flex items-center gap-2"><Loader2 size={14}/>Saving changes...</span> : <span className="flex items-center gap-2"><Save size={14} />Save Changes</span>}
+                            </button>
                         </div>
                     </div>
                 </form>
