@@ -153,13 +153,12 @@ const EditHabitModal = ({ onClose, habitID, habit }) => {
                         <div className='flex items-center gap-3 text-sm'>
                             <button onClick={onClose} className='px-2 py-1 hover:bg-[#ed1d25] text-neutral-700 border border-neutral-300 cursor-pointe transition-colors duration-300 shadow-sm cursor-pointer font-medium hover:text-white'>Cancle</button>
                             <button disable={loading} className='px-2 py-1 bg-[#ed1d25] cursor-pointer text-white shadow-sm font-medium'>
-                                {loading ? <span className="flex items-center gap-2"><Loader2 size={14}/>Saving changes...</span> : <span className="flex items-center gap-2"><Save size={14} />Save Changes</span>}
+                                {loading ? <span className="flex items-center gap-2"><Loader2 className="animate-spin" size={14}/>Saving changes...</span> : <span className="flex items-center gap-2"><Save size={14} />Save Changes</span>}
                             </button>
                         </div>
                     </div>
                 </form>
             </div>
-            <Toaster />
         </div>
     )
 }
